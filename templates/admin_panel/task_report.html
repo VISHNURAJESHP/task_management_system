@@ -1,0 +1,36 @@
+{% extends "admin_panel/base.html" %}
+
+{% block content %}
+<h2>Task Report</h2>
+
+{% if error %}
+  <div class="error-box">{{ error }}</div>
+{% endif %}
+
+{% if task %}
+  <table>
+    <tbody>
+      <tr>
+        <th>Task:</th>
+        <td>{{ task.title }}</td>
+      </tr>
+      <tr>
+        <th>User:</th>
+        <td>{{ task.assigned_to.username }}</td>
+      </tr>
+      <tr>
+        <th>Status:</th>
+        <td>{{ task.status }}</td>
+      </tr>
+      <tr>
+        <th>Report:</th>
+        <td>{{ task.completion_report }}</td>
+      </tr>
+      <tr>
+        <th>Worked Hours:</th>
+        <td>{{ task.worked_hours }}</td>
+      </tr>
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}

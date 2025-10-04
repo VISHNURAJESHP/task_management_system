@@ -1,0 +1,17 @@
+{% extends "admin_panel/base.html" %}
+{% block content %}
+<h3>Welcome, {{ user.username }}</h3>
+<p>Role: {{ user.role }}</p>
+
+<div class="stats">
+  {% if users_count is not None %}
+    <div class="stat-card">Total Users: {{ users_count }}</div>
+  {% endif %}
+  {% if admins_count is not None %}
+    <div class="stat-card">Total Admins: {{ admins_count }}</div>
+  {% endif %}
+  {% if tasks_count is not None %}
+    <div class="stat-card">Total Tasks: {{ tasks_count }}</div>
+  {% endif %}
+</div>
+{% endblock %}

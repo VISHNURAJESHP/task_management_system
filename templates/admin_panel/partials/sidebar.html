@@ -1,0 +1,12 @@
+<div class="sidebar">
+  <h4 class="text-center mt-3">Admin Panel</h4>
+  <hr class="bg-light">
+  <a href="{% url 'dashboard' %}">🏠 Dashboard</a>
+  {% if user.role == "Super Admin" %}
+    <a href="{% url 'list_users_html' %}">👥 Manage Users</a>
+    <a href="{% url 'list_admins_html' %}">🧑‍💼 Manage Admins</a>
+    <a href="{% url 'assign_user_html' %}">🔗 Assign User to Admin</a>
+  {% endif %}
+  <a href="{% url 'tasks_list' %}">🗂 Manage Tasks</a>
+  <a href="/logout">🚪 Logout</a>
+</div>

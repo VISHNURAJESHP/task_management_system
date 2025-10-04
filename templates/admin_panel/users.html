@@ -1,0 +1,79 @@
+{% extends "admin_panel/base.html" %}
+
+{% block content %}
+<h2>Manage Users</h2>
+
+{% if errors %}
+  <div class="error-box">{{ errors }}</div>
+{% endif %}
+
+<!-- Create User Form -->
+<form method="post" action="{% url 'create_user_html' %}">
+  {% csrf_token %}
+
+  <label>Username</label>
+  <input type="text" name="username" placeholder="Enter username" required>
+
+  <label>Email</label>
+  <input type="email" name="email" placeholder="Enter email" required>
+
+  <label>Phone Number</label>
+  <input type="text" name="phone_number" placeholder="Enter phone number" required>
+
+  <label>Password</label>
+  <input type="password" name="password" placeholder="Enter password" required>
+
+  <label>Assign Admin</label>
+  <select name="assigned_admin">
+    <option value="">-- None --</option>
+    {% for admin in admins %}
+      <option value="{{ admin.id }}">{{ admin.username }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit">Create User</button>
+</form>
+
+<hr>
+
+<!-- Users Table -->
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Assigned Admin</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <td>{{ u.id }}</td>
+      <td>{{ u.username }}</td>
+      <td>{{ u.email }}</td>
+      <td>{{ u.phone_number }}</td>
+      <td>
+        {% if u.assigned_admin %}
+          {{ u.assigned_admin.username }}
+        {% else %}
+          -
+        {% endif %}
+      </td>
+      <td>
+        <form method="post" action="{% url 'delete_user_html' u.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6" style="text-align:center;">No users found</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

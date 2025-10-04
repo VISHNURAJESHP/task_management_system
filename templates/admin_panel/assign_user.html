@@ -1,0 +1,27 @@
+{% extends "admin_panel/base.html" %}
+{% block content %}
+<h3>Assign User to Admin</h3>
+
+{% if error %}
+  <div class="error-box">{{ error }}</div>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  <label>User:</label>
+  <select name="user_id">
+    {% for u in users %}
+      <option value="{{ u.id }}">{{ u.username }}</option>
+    {% endfor %}
+  </select>
+
+  <label>Admin:</label>
+  <select name="admin_id">
+    {% for a in admins %}
+      <option value="{{ a.id }}">{{ a.username }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit">Assign</button>
+</form>
+{% endblock %}

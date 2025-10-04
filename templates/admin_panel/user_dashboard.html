@@ -1,0 +1,32 @@
+{% extends "admin_panel/base.html" %}
+
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">My Tasks</h2>
+
+{% if tasks %}
+  <table class="table-auto w-full border-collapse border border-gray-300">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="border p-2 text-left">Title</th>
+        <th class="border p-2 text-left">Status</th>
+        <th class="border p-2 text-left">Worked Hours</th>
+        <th class="border p-2 text-left">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td class="border p-2">{{ task.title }}</td>
+          <td class="border p-2">{{ task.status }}</td>
+          <td class="border p-2">{{ task.worked_hours|default:"—" }}</td>
+          <td class="border p-2">
+            <a href="{% url 'update_task_html' task.id %}" class="text-blue-600 hover:underline">Update</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No tasks assigned yet.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "admin_panel/base.html" %}
+{% block content %}
+<h2>{% if task %}Update Task{% else %}Create Task{% endif %}</h2>
+
+{% if error %}
+  <div class="error-box">{{ error }}</div>
+{% endif %}
+
+{% if errors %}
+  <div class="error-box">{{ errors }}</div>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+
+  {% if not task %}
+    <label>Task Title</label>
+    <input type="text" name="title" placeholder="Task Title" required>
+
+    <label>Description</label>
+    <textarea name="description" placeholder="Description"></textarea>
+
+    <label>Assign to User</label>
+    <select name="assigned_to">
+      {% for u in users %}
+        <option value="{{ u.id }}">{{ u.username }}</option>
+      {% endfor %}
+    </select>
+  {% endif %}
+
+  {% if task %}
+    <p><b>Task:</b> {{ task.title }}</p>
+    <p><b>User:</b> {{ task.assigned_to.username }}</p>
+
+    <label>Status:</label>
+    <select name="status">
+      <option value="Pending" {% if task.status == "Pending" %}selected{% endif %}>Pending</option>
+      <option value="In Progress" {% if task.status == "In Progress" %}selected{% endif %}>In Progress</option>
+      <option value="Completed" {% if task.status == "Completed" %}selected{% endif %}>Completed</option>
+    </select>
+
+    {% if user.role == "User" %}
+      <label>Completion Report:</label>
+      <textarea name="completion_report">{{ task.completion_report }}</textarea>
+
+      <label>Worked Hours:</label>
+      <input type="number" name="worked_hours" step="0.1" value="{{ task.worked_hours }}">
+    {% endif %}
+  {% endif %}
+
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

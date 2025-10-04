@@ -1,0 +1,36 @@
+{% extends "admin_panel/base.html" %}
+{% block content %}
+<h2>Tasks</h2>
+
+{% if user.role == "Admin" %}
+  <a class="btn" href="{% url 'create_task_html' %}">+ Create New Task</a>
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>User</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in tasks %}
+    <tr>
+      <td>{{ t.id }}</td>
+      <td>{{ t.title }}</td>
+      <td>{{ t.assigned_to.username }}</td>
+      <td>{{ t.status }}</td>
+      <td>
+        <a class="btn" href="{% url 'update_task_html' t.id %}">Update</a>
+        {% if user.role in "Admin Super Admin" %}
+          <a class="btn" href="{% url 'task_report_html' t.id %}">View Report</a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

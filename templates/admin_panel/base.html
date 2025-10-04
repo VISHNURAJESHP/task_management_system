@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ user.role }} Panel</title>
+  <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>{{ user.role }}</h2>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="{% url 'dashboard_html' %}" class="nav-link">Dashboard</a></li>
+        {% if user.role == "Super Admin" %}
+          <li><a href="{% url 'users_html' %}" class="nav-link">Users</a></li>
+          <li><a href="{% url 'admins_html' %}" class="nav-link">Admins</a></li>
+          <li><a href="{% url 'assign_user_html' %}" class="nav-link">Assign Users</a></li>
+        {% endif %}
+        {% if user.role in "Admin Super Admin" %}
+          <li><a href="{% url 'tasks_html' %}" class="nav-link">Tasks</a></li>
+        {% endif %}
+        <li><a href="{% url 'logout_html' %}" class="nav-link logout">Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <header class="main-header">
+        <h1>{{ user.role }} Dashboard</h1>
+        <p>Welcome, {{ user.username }}</p>
+      </header>
+
+      <main>
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+</body>
+</html>
